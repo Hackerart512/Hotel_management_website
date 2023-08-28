@@ -52,15 +52,29 @@ router.post('/addcustomer', fetchuser, [
 
 
 // Route:2 Get Customer booking user GET "/costomerbooking" login required
-router.get('/',fetchuser,async(req,res)=>{
+router.get('/fetch',fetchuser,async(req,res)=>{
   try{
       userid =  req.user.id;
       
       const customer = await Customer_booking.find({user:userid}).select("-password");
-      res.json({customer})
+      res.json(customer)
   }catch(e){
       res.status(500).json({message:"This is internal Error...."})
   }
+})
+
+
+//Route :3 delete booking by the customer DELETE:"//deleteroom/:id"
+router.delete('/deletebooking/:id',fetchuser, async (req, res) => {
+  try {
+    let success = false;
+    let booking = await Customer_booking.findById(req.params.id);
+    if (!booking) { return res.status(401).send("Not found") }
+
+    booking = await Customer_booking.findByIdAndDelete(req.params.id);
+    success = true;
+    res.json({ success, booking, message: 'Room has been cancel' });
+  } catch (err) { console.log(err); }
 })
 
 module.exports = router;

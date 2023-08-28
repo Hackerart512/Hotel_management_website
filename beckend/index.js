@@ -25,6 +25,10 @@ app.use('/myprofile',require('./src/routers/myprofile'));
 app.use('/costomerbooking',require('./src/routers/customer_booking'));
 
 
+//  cusotomer booking data add into mongoosea, POST/GET 
+app.use('/roomtype',require('./src/routers/roomtype'));
+
+
 // http://localhost:5000/ send hello msg then when start nodemon index.js
 app.get('/', function(req, res){
     res.send("Hello");
